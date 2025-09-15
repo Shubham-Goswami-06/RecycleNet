@@ -13,6 +13,7 @@ import re
 # -----------------------------------
 # Paths
 # -----------------------------------
+os.getenv("HF_TOKEN")
 TIPS_FILE = "llm_tips.json"
 
 # -----------------------------------
@@ -51,9 +52,17 @@ def get_transform():
 # -----------------------------------
 # Prediction
 # -----------------------------------
-def predict(image_path, model, class_names, device="cpu"):
+def predict(image_input, model, class_names, device="cpu"):
     transform = get_transform()
-    img = Image.open(image_path).convert("RGB")
+
+    # Accept both file path and PIL Image
+    if isinstance(image_input, str):
+        img = Image.open(image_input).convert("RGB")
+    elif isinstance(image_input, Image.Image):
+        img = image_input
+    else:
+        raise TypeError("image_input must be a file path or PIL Image")
+
     img = transform(img).unsqueeze(0).to(device)
 
     with torch.no_grad():
@@ -61,6 +70,7 @@ def predict(image_path, model, class_names, device="cpu"):
         _, pred = torch.max(outputs, 1)
 
     return class_names[pred.item()]
+
 
 
 # -----------------------------------
@@ -95,21 +105,21 @@ def get_fallback_tips(predicted_class, tips_file=TIPS_FILE):
 
 
 # -----------------------------------
-# Hugging Face LLM Call (Nebius)
+# Hugging Face LLM Call (Llama)
 # -----------------------------------
 def clean_llm_output(text: str) -> str:
     """Remove <think>...</think> blocks if present."""
     text = re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL)
     return text.strip()
 
-def get_recycling_tips(predicted_class, model_name="Qwen/Qwen3-4B"):
+def get_recycling_tips(predicted_class, model_name="Qwen/Qwen3-4B-Instruct-2507"):
     token = os.getenv("HF_TOKEN")
     if not token:
         return get_fallback_tips(predicted_class)
 
     try:
-        client = InferenceClient(provider="nebius", api_key=token)
-        prompt = f"Give me 4 (max 10 - 15 words each) tips to recycle {predicted_class} type waste. and Respond in numbered list."
+        client = InferenceClient(provider="nscale", api_key=token)
+        prompt = f"Give me 4 to 8 (max 10 - 15 words each) tips to recycle {predicted_class} type waste. and Respond in numbered list."
 
         response = client.chat.completions.create(
             model=model_name,

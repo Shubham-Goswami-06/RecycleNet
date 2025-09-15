@@ -1,5 +1,11 @@
 # ♻️ RecycleNet
 
+[![Python](https://img.shields.io/badge/Python-3.9+-blue?logo=python)](https://www.python.org/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-ee4c2c?logo=pytorch)](https://pytorch.org/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
+# ♻️ RecycleNet
+
 RecycleNet is an AI model that classifies waste into categories like **plastic, glass, paper, metal, cardboard, and trash**, and suggests **short recycling tips** powered by an LLM.
 
 ## 🚀 Features
@@ -28,3 +34,7 @@ python RecycleNet.py \
   --checkpoint MobileNetV2_best.pth \
   --classmap class_map.json
 ```
+
+## 📜 License
+
+This project is licensed under the MIT License — you’re free to use, modify, and share it with attribution.
