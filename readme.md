@@ -6,22 +6,22 @@
 
 # ♻️ RecycleNet
 
-RecycleNet is an AI model that classifies waste into categories like **plastic, glass, paper, metal, cardboard, and trash**, and suggests **short recycling tips** powered by an LLM.
+RecycleNet is an end-to-end AI application that not only classifies waste into categories (plastic, glass, paper, metal, cardboard, and trash) using deep learning, but also acts as an intelligent assistant by generating contextual recycling tips powered by a Large Language Model.
 
-## 🚀 Features
+## 🚀 Key Features
 
-- Fine-tuned **MobileNetV2** for waste classification
-- Hugging Face **LLM integration** for creative recycling suggestions
-- Fallback to locally stored tips if API unavailable
-- Works on CPU → easy to host anywhere (like Vercel)
+- **Advanced Computer Vision**: Fine-tuned MobileNetV2 architecture for highly accurate, lightweight waste classification.
+- **LLM Integration**: Seamlessly hooks into Hugging Face's API to generate creative, context-aware recycling suggestions.
+- **Resilient Architecture**: Engineered with an automatic fallback to locally stored JSON tips (llm_tips.json) if the external API is unavailable, ensuring zero downtime.
+- **Cost-Effective Deployment**: Strictly optimized for CPU inference, making it incredibly easy and cheap to host anywhere (like Vercel or local edge devices).
 
 ## 📂 Project Structure
 
-- `RecycleNet.py` → main inference script
-- `MobileNetV2_best.pth` → trained weights
-- `class_map.json` → class label mapping
-- `llm_tips.json` → grows with collected tips
-- `requirements.txt` → dependencies
+- `RecycleNet.py` → Main inference and API handling script
+- `MobileNetV2_best.pth` → Trained neural network weights
+- `class_map.json` → Dynamic class label mapping
+- `llm_tips.json` → Local database that grows continuously with collected tips
+- `requirements.txt` → Project dependencies
 
 ## 🛠️ Usage
 
